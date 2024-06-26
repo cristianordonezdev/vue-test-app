@@ -1,10 +1,10 @@
 
 import { it, expect } from "vitest";
-import { mount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import HelloWorld from './HelloWorld.vue'
 
 it("Should render the msg property", () => {
-    const instance = mount(HelloWorld, {
+    const instance = shallowMount(HelloWorld, {
         props: {
             msg: 'My first test'
         }
@@ -18,7 +18,7 @@ it("Should render the msg property", () => {
 
 // This use whitebox, difficult to maintain, because we are using methods
 it("Should incremment count when the increment method is called", () => {
-    const instance = mount(HelloWorld);
+    const instance = shallowMount(HelloWorld);
 
     instance.vm.increment()
     expect(instance.vm.count).toBe(1)
@@ -29,7 +29,7 @@ it("Should incremment count when the increment method is called", () => {
 // input is the buttom, and the output is the final result to be expected
 
 it('Should increment the count and display it', async () => {
-    const instance = mount(HelloWorld);
+    const instance = shallowMount(HelloWorld);
 
     const button = instance.find('button');
     await button.trigger('click');

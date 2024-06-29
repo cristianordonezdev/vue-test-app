@@ -1,5 +1,5 @@
 
-import { it, expect } from "vitest";
+import { it, expect, vi, describe } from "vitest";
 import { shallowMount } from "@vue/test-utils";
 import HelloWorld from './HelloWorld.vue'
 
@@ -35,4 +35,21 @@ it('Should increment the count and display it', async () => {
     await button.trigger('click');
 
     expect(button.text()).toBe('count is 1')
+})
+
+describe('Hello world test suites', () => {
+    global.fetch = vi.fn()
+    it('should mmake a fetch call using correct url depending on msg property', async () => {
+        // Given the helloWorld component is mounted
+        const instance = shallowMount(HelloWorld)
+
+        //when the msg property changes
+
+        await instance.setProps({
+            msg: 'testing'
+        })
+
+        //then we expect that the fecth function is called with good url
+        expect(fetch).toHaveBeenNthCalledWith(1, 'https://example.com/testing')
+    })
 })

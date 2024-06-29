@@ -108,4 +108,35 @@ describe('Hello world test suites', () => {
 
         expect(titleComponentWrapper.props('value')).toBe('My Title: First section')
     })
+
+    it.each([
+        {msg: 'Message from prop to rendering', titleComponentExist: true},
+        {msg: undefined, titleComponentExist: false}
+    ])('msg: $msg --> titleComponentExits: $titleComponentExist', ({msg, titleComponentExist}) => {
+        const wrapper = shallowMount(HelloWorld, {
+            props: {
+                msg,
+            }
+        })
+
+        const titleComponentWrapper = wrapper.findComponent(TitleComponent)
+
+        expect(titleComponentWrapper.exists()).toBe(titleComponentExist);
+    })
+
+    it.each([
+        {msg: 'Message from prop to rendering', successClassExists: false},
+        {msg: undefined, successClassExists: true},
+        {msg: '', successClassExists: true}
+    ])('msg: $msg --> successClassExists: $successClassExists', ({msg, successClassExists}) => {
+        const wrapper = shallowMount(HelloWorld, {
+            props: {
+                msg,
+            }
+        })
+
+        const card_element_wrapper = wrapper.find<HTMLDivElement>('.card-success')
+
+        expect(card_element_wrapper.exists()).toBe(successClassExists);
+    })
 })

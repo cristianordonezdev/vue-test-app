@@ -24,9 +24,9 @@ const prefixedMessage = computed(() => `My Title: ${props.msg}`)
 </script>
 
 <template>
-  <title-component :value="`My Title: ${props.msg}`" />
+  <title-component :value="`My Title: ${props.msg}`" v-if="props.msg"/>
 
-  <div class="card">
+  <div class="card" :class="{'card-success': !props.msg }">
     <button type="button" @click="increment">count is {{ count }}</button>
     <p>
       Edit

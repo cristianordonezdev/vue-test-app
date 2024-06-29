@@ -1,8 +1,12 @@
 
-import { it, expect, vi, describe } from "vitest";
+import { it, expect, vi, describe, beforeEach } from "vitest";
 import { shallowMount } from "@vue/test-utils";
 import HelloWorld from './HelloWorld.vue'
 import axios from "axios";
+import { createTestingPinia } from '@pinia/testing'
+import { useAppStore } from '../stores/appStore' // Asegúrate de ajustar la ruta
+import { setActivePinia, createPinia } from "pinia";
+
 vi.mock('axios');
 
 it("Should render the msg property", () => {
@@ -58,17 +62,39 @@ describe('Hello world test suites', () => {
     // })
 
     // AXIOS CALL
-    it('Should call axios function with https://httpbin.org/get', async () => {
-        // Given the helloWorld component is mounted
-        const instance = shallowMount(HelloWorld)
+    // it('Should call axios function with https://httpbin.org/get', async () => {
+    //     // Given the helloWorld component is mounted
+    //     const instance = shallowMount(HelloWorld)
 
-        //when the msg property changes
+    //     //when the msg property changes
 
-        await instance.setProps({
-            msg: 'testing'
+    //     await instance.setProps({
+    //         msg: 'testing'
+    //     })
+
+    //     //then we expect that the fecth function is called with good url
+    //     expect(axios.get).toHaveBeenNthCalledWith(1, 'https://httpbin.org/get')
+    // })
+    beforeEach(() => {
+        setActivePinia(createPinia())
+
+    })
+    it('should dispatch change message with test, if msg property changes as test', async () => {
+        const wrapper = shallowMount(HelloWorld, {
+            global: {
+                plugins: [createTestingPinia(
+                    {createSpy: vi.fn,}
+                )]
+            }
         })
 
-        //then we expect that the fecth function is called with good url
-        expect(axios.get).toHaveBeenNthCalledWith(1, 'https://httpbin.org/get')
+        const store = useAppStore()
+
+        await wrapper.setProps({
+            msg: 'test'
+        })
+
+        expect(store.changeMessage).toHaveBeenNthCalledWith(1, 'test')
     })
+
 })

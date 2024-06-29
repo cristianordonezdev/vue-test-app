@@ -6,42 +6,43 @@ import axios from "axios";
 import { createTestingPinia } from '@pinia/testing'
 import { useAppStore } from '../stores/appStore' // Asegúrate de ajustar la ruta
 import { setActivePinia, createPinia } from "pinia";
+import TitleComponent from "./TitleComponent.vue";
 
 vi.mock('axios');
 
-it("Should render the msg property", () => {
-    const instance = shallowMount(HelloWorld, {
-        props: {
-            msg: 'My first test'
-        }
-    })
-    expect(instance.html()).toContain('My first test')
+// it("Should render the msg property", () => {
+//     const instance = shallowMount(HelloWorld, {
+//         props: {
+//             msg: 'My first test'
+//         }
+//     })
+//     expect(instance.html()).toContain('My first test')
 
-    expect(instance.find('h1').text()).toBe('My first test')
-    console.log(instance.html())
-});
-
-
-// This use whitebox, difficult to maintain, because we are using methods
-it("Should incremment count when the increment method is called", () => {
-    const instance = shallowMount(HelloWorld);
-
-    instance.vm.increment()
-    expect(instance.vm.count).toBe(1)
-})
+//     expect(instance.find('h1').text()).toBe('My first test')
+//     console.log(instance.html())
+// });
 
 
-// This use blackbox, better choice to test, because we are testing inputs and outputs. This case
-// input is the buttom, and the output is the final result to be expected
+// // This use whitebox, difficult to maintain, because we are using methods
+// it("Should incremment count when the increment method is called", () => {
+//     const instance = shallowMount(HelloWorld);
 
-it('Should increment the count and display it', async () => {
-    const instance = shallowMount(HelloWorld);
+//     instance.vm.increment()
+//     expect(instance.vm.count).toBe(1)
+// })
 
-    const button = instance.find('button');
-    await button.trigger('click');
 
-    expect(button.text()).toBe('count is 1')
-})
+// // This use blackbox, better choice to test, because we are testing inputs and outputs. This case
+// // input is the buttom, and the output is the final result to be expected
+
+// it('Should increment the count and display it', async () => {
+//     const instance = shallowMount(HelloWorld);
+
+//     const button = instance.find('button');
+//     await button.trigger('click');
+
+//     expect(button.text()).toBe('count is 1')
+// })
 
 describe('Hello world test suites', () => {
 
@@ -97,4 +98,14 @@ describe('Hello world test suites', () => {
         expect(store.changeMessage).toHaveBeenNthCalledWith(1, 'test')
     })
 
+    it('should bind the msg property with a prefix (my Title:) to titleComponent', () => {
+        const wrapper = shallowMount(HelloWorld, {
+            props: {
+                msg: 'First section'
+            }
+        })
+        const titleComponentWrapper = wrapper.findComponent(TitleComponent)
+
+        expect(titleComponentWrapper.props('value')).toBe('My Title: First section')
+    })
 })

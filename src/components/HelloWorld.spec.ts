@@ -2,6 +2,8 @@
 import { it, expect, vi, describe } from "vitest";
 import { shallowMount } from "@vue/test-utils";
 import HelloWorld from './HelloWorld.vue'
+import axios from "axios";
+vi.mock('axios');
 
 it("Should render the msg property", () => {
     const instance = shallowMount(HelloWorld, {
@@ -38,8 +40,25 @@ it('Should increment the count and display it', async () => {
 })
 
 describe('Hello world test suites', () => {
-    global.fetch = vi.fn()
-    it('should mmake a fetch call using correct url depending on msg property', async () => {
+
+    // FETCH CALL
+    // global.fetch = vi.fn()
+    // it('should mmake a fetch call using correct url depending on msg property', async () => {
+    //     // Given the helloWorld component is mounted
+    //     const instance = shallowMount(HelloWorld)
+
+    //     //when the msg property changes
+
+    //     await instance.setProps({
+    //         msg: 'testing'
+    //     })
+
+    //     //then we expect that the fecth function is called with good url
+    //     expect(fetch).toHaveBeenNthCalledWith(1, 'https://example.com/testing')
+    // })
+
+    // AXIOS CALL
+    it('Should call axios function with https://httpbin.org/get', async () => {
         // Given the helloWorld component is mounted
         const instance = shallowMount(HelloWorld)
 
@@ -50,6 +69,6 @@ describe('Hello world test suites', () => {
         })
 
         //then we expect that the fecth function is called with good url
-        expect(fetch).toHaveBeenNthCalledWith(1, 'https://example.com/testing')
+        expect(axios.get).toHaveBeenNthCalledWith(1, 'https://httpbin.org/get')
     })
 })

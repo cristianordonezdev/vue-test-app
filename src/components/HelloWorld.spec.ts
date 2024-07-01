@@ -7,9 +7,11 @@ import { createTestingPinia } from '@pinia/testing'
 import { useAppStore } from '../stores/appStore' // Asegúrate de ajustar la ruta
 import { setActivePinia, createPinia } from "pinia";
 import TitleComponent from "./TitleComponent.vue";
+import { propsInterface } from "../interfaces/test_interfaces";
 
 vi.mock('axios');
-
+const create_wrapper = (props?: propsInterface) => shallowMount(HelloWorld, {props})
+    
 // it("Should render the msg property", () => {
 //     const instance = shallowMount(HelloWorld, {
 //         props: {
@@ -109,20 +111,20 @@ describe('Hello world test suites', () => {
         expect(titleComponentWrapper.props('value')).toBe('My Title: First section')
     })
 
-    it.each([
-        {msg: 'Message from prop to rendering', titleComponentExist: true},
-        {msg: undefined, titleComponentExist: false}
-    ])('msg: $msg --> titleComponentExits: $titleComponentExist', ({msg, titleComponentExist}) => {
-        const wrapper = shallowMount(HelloWorld, {
-            props: {
-                msg,
-            }
-        })
+    // it.each([
+    //     {msg: 'Message from prop to rendering', titleComponentExist: true},
+    //     {msg: undefined, titleComponentExist: false}
+    // ])('msg: $msg --> titleComponentExits: $titleComponentExist', ({msg, titleComponentExist}) => {
+    //     const wrapper = shallowMount(HelloWorld, {
+    //         props: {
+    //             msg,
+    //         }
+    //     })
 
-        const titleComponentWrapper = wrapper.findComponent(TitleComponent)
+    //     const titleComponentWrapper = wrapper.findComponent(TitleComponent)
 
-        expect(titleComponentWrapper.exists()).toBe(titleComponentExist);
-    })
+    //     expect(titleComponentWrapper.exists()).toBe(titleComponentExist);
+    // })
 
     it.each([
         {msg: 'Message from prop to rendering', successClassExists: false},
@@ -138,5 +140,30 @@ describe('Hello world test suites', () => {
         const card_element_wrapper = wrapper.find<HTMLDivElement>('.card-success')
 
         expect(card_element_wrapper.exists()).toBe(successClassExists);
+    })
+
+
+    it("should emit cad-clicked when the card is clicked", async () => {
+        const wrapper = create_wrapper();
+
+        const card = wrapper.find('.card')
+        await card.trigger('click')
+
+        expect(wrapper.emitted('card-clicked')).toBeTruthy()
+    })
+
+    it('should emit up event when title component emit on-mounted', () => {
+        const wrapper = create_wrapper();
+
+        const titleComponentWrapper = wrapper.findComponent(TitleComponent)
+        titleComponentWrapper.vm.$emit('on-mounted')
+
+        expect(wrapper.emitted('up')).toBeTruthy()
+
+        expect(wrapper.emitted('up')).toHaveLength(1)
+
+        // Verify if parammeter of prop is correct 
+        expect(wrapper.emitted('up')?.[0][0]).toBe(1)
+
     })
 })

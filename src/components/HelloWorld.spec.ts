@@ -160,6 +160,7 @@ describe('Hello world test suites', () => {
 
         expect(wrapper.emitted('up')).toBeTruthy()
 
+        // Verify if the event is called once
         expect(wrapper.emitted('up')).toHaveLength(1)
 
         // Verify if parammeter of prop is correct 

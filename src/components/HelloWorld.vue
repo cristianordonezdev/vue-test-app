@@ -9,9 +9,9 @@ const emit = defineEmits<{
   (e: 'card-clicked'): void
   (e: 'up', count: number): void
 }>()
-const props = defineProps({
+const props = defineProps<{
   msg: propsInterface,
-})
+}>()
 
 const count = ref(1)
 
@@ -26,7 +26,7 @@ const handleOnMountedTitle = () => {
 const clickCard = () => {
   emit('card-clicked')
 }
-watch(() => props.msg, (value) => {
+watch(() => props.msg, (value: any) => {
   // axios.get('https://httpbin.org/get')
   if (!value) return;
   useAppStore().changeMessage(value)

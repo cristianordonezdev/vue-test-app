@@ -14,6 +14,6 @@ watch(getAllMessage, () => {
 })
 </script>
 <template>
-    <title-component value="Home"></title-component>
+    <title-component :value="useAppStore().myMessage"></title-component>
     <button @click="router.push('/about')">Go to about</button>
 </template>

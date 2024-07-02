@@ -38,13 +38,27 @@ describe('Home suites tests', () => {
 
     // })
 
-    it("should emmit new message event when myMessage changes", async () => {
-        const store = useAppStore()
-        store.myMessage = 'new message'
+    // it("should emmit new message event when myMessage changes", async () => {
+    //     const store = useAppStore()
+    //     store.myMessage = 'new message'
 
-        await wrapper.vm.$nextTick()
-        expect(wrapper.emitted('new-message')).toBeTruthy()
-        expect(wrapper.emitted('new-message')).toHaveLength(1)
-        expect(wrapper.emitted('new-message')?.[0][0]).toBe('Complete message new message')
-    })
+    //     await wrapper.vm.$nextTick()
+    //     expect(wrapper.emitted('new-message')).toBeTruthy()
+    //     expect(wrapper.emitted('new-message')).toHaveLength(1)
+    //     expect(wrapper.emitted('new-message')?.[0][0]).toBe('Complete message new message')
+    // })
+
+    // it("should get the user on http://server.com/user with payload as {userId:123} when the getter changes", async () => {
+    //     const store = useAppStore()
+    //     global.fetch = vi.fn()
+
+
+    //     await wrapper.vm.$nextTick()
+    //     expect(fetch).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/posts', {
+    //         method: 'POST',
+    //         body: '{\"userId\":123}'
+    //     })
+
+    // })
+
 })

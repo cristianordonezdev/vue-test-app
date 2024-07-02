@@ -15,11 +15,23 @@ const executeChangeMessage = () => {
   useAppStore().changeMessage('testis')
 }
 
-watch(getAllMessage, (value) => {
-  if (!value) return
+// watch(getAllMessage, (value) => {
+//   if (!value) return
 
-  emit('new-message', value)
-})
+//   emit('new-message', value)
+// })
+
+// watch(getAllMessage, (value) => {
+//   if (!value) return
+
+//   fetch('https://jsonplaceholder.typicode.com/posts', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({userId: 1})
+//   })
+// })
 </script>
 <template>
   <title-component :value="value" @on-mounted="executeChangeMessage" @click="value = 'About !!!'" v-if="display_title"

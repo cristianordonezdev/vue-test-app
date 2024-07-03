@@ -8,6 +8,8 @@ export default defineConfig({
         globals: true,
         coverage: {
             provider: "istanbul",
+            reporter: ['json-summary']
         },
+
     }
 })

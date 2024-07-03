@@ -5,6 +5,15 @@ export default defineConfig({
     plugins: [Vue()],
     test: {
         environment: "happy-dom",
-        globals: true
+        globals: true,
+        coverage: {
+            provider: "istanbul",
+            reporter: ['json-summary'],
+            statements: 100,
+            branches: 100,
+            functions: 100,
+            lines: 100,
+        },
+
     }
 })

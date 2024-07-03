@@ -38,11 +38,23 @@ describe('Home suites tests', () => {
 
 
     it('should binf correctly the state myMessage with the value property of TitleComponent', async () =>{
+        
+        const store = useAppStore()
+        await store.$patch({ myMessage: 'myMessage CHANGE' })
         const titleComponentWrapper = wrapper.findComponent(TitleComponent)
 
+        expect(titleComponentWrapper.props('value')).toBe('myMessage CHANGE')
+    })
+
+    it.each([
+        {msg: 'test', titleComponentExist: true},
+        {msg: '', titleComponentExist: false}
+    ])("should render the titleComponent only if the myCompleteMessage is set", async ({msg, titleComponentExist}) => {
         const store = useAppStore()
 
-        await store.$patch({ myMessage: 'myMessage CHANGE' })
-        expect(titleComponentWrapper.props('value')).toBe('myMessage CHANGE')
+        await store.$patch({ myMessage: msg })
+
+        const titleComponentWrapper = wrapper.findComponent(TitleComponent)
+        expect(titleComponentWrapper.exists()).toBe(titleComponentExist)
     })
 })
